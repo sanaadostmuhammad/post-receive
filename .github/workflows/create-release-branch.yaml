@@ -44,7 +44,7 @@ jobs:
         TAG_NAME=${GITHUB_REF#refs/tags/}
         echo $TAG_NAME
         
-        git checkout main
+        git checkout origin main
         git pull origin main
 
 
