@@ -21,6 +21,7 @@ jobs:
       run: |
         # Extract the tag name from the ref
         TAG_NAME=${GITHUB_REF#refs/tags/}
+        echo $TAG_NAME
         
         # Create a release branch
         git checkout -b release/${TAG_NAME} origin/main
