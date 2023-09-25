@@ -45,7 +45,7 @@ jobs:
         echo $TAG_NAME
         
         # Create a release branch
-        git checkout -b release/${TAG_NAME} origin/main
+        git checkout -b release/${TAG_NAME} main
 
         # Push the new branch to the remote repository
         git push origin release/${TAG_NAME}
