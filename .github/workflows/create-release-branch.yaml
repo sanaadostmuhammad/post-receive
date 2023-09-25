@@ -1,0 +1,28 @@
+name: Create Release Branch
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create-release-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check if it's a tag push
+      run: echo "This is a tag push."
+
+    - name: Create Release Branch
+      run: |
+        # Extract the tag name from the ref
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        
+        # Create a release branch
+        git checkout -b release/${TAG_NAME} origin/main
+
+        # Push the new branch to the remote repository
+        git push origin release/${TAG_NAME}
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_POST_RECEIVE }}
