@@ -30,4 +30,4 @@ jobs:
         git push origin release/${TAG_NAME}
 
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_POST_RECEIVE }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
