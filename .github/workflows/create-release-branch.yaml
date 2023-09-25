@@ -44,8 +44,12 @@ jobs:
         TAG_NAME=${GITHUB_REF#refs/tags/}
         echo $TAG_NAME
         
+        git checkout main
+        git pull origin main
+
+
         # Create a release branch
-        git checkout -b release/${TAG_NAME} main
+        git checkout -b release/${TAG_NAME}
 
         # Push the new branch to the remote repository
         git push origin release/${TAG_NAME}
