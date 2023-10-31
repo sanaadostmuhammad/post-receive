@@ -18,7 +18,7 @@ jobs:
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Create branch
-        run: git checkout -b branch-name-from-tag $TAG_NAME
+        run: git checkout -b release/$TAG_NAME $TAG_NAME
 
       - name: Push branch to remote
-        run: git push origin branch-name-from-tag
+        run: git push origin release/$TAG_NAME
