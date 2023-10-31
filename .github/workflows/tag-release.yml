@@ -34,7 +34,7 @@ jobs:
         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package.json
         git add package.json
         git commit -m "Update package.json version to $TAG_NAME"
-        git push
+        # git push
 
     - name: Update package-lock.json Version
       run: |
@@ -42,7 +42,7 @@ jobs:
         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package-lock.json
         git add package-lock.json
         git commit -m "Update package-lock.json version to $TAG_NAME"
-        git push
+        # git push
 
     - name: Update config.xml Version
       run: |
@@ -50,7 +50,7 @@ jobs:
         sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
         git add config.xml
         git commit -m "Update config.xml version to $TAG_NAME"
-        git push
+        # git push
 
     - name: Set Commit Author Identity
       run: git config user.name "${{ steps.author.outputs.author }}" && git config user.email ""
