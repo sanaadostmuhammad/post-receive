@@ -61,7 +61,7 @@ jobs:
 
       - name: Create Release Branch
         run: |
-          BRANCH_NAME="release/$TAG_NAME"
+          BRANCH_NAME="release/$TAG_NAME $TAG_NAME"
           git checkout -b "$BRANCH_NAME"
           git push -u origin "$BRANCH_NAME"
 
