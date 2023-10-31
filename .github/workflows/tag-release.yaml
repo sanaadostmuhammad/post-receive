@@ -1,0 +1,37 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if it's a tag push
+        run: echo "This is a tag push."
+
+      - name: Create a release branch
+        run: |
+          TAG_NAME=${GITHUB_REF/refs\/tags\//}
+          RELEASE_BRANCH="release/$TAG_NAME"
+          git checkout -b $RELEASE_BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update version in package.json, package-lock.json, and config.xml
+        run: |
+          TAG_NAME=${GITHUB_REF/refs/tags/}
+          npm version --no-git-tag-version --allow-same-version $TAG_NAME
+          git add package.json package-lock.json config.xml
+          git commit -m "Update version to $TAG_NAME"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes to release branch
+        run: |
+          git push origin $RELEASE_BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

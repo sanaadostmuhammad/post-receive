@@ -1,86 +1,86 @@
-name: Create Branch from Tag
+# name: Create Branch from Tag
 
-on:
-  push:
-    tags:
-      - '*'
+# on:
+#   push:
+#     tags:
+#       - '*'
+
+# # jobs:
+# #   create-branch:
+# #     runs-on: ubuntu-latest
+
+# #     steps:
+# #       - name: Check out code
+# #         uses: actions/checkout@v2
+
+# #       - name: Extract tag name
+# #         id: extract-tag
+# #         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+# #       - name: Create branch
+# #         run: git checkout -b release/$TAG_NAME $TAG_NAME
+
+# #       - name: Update package.json and  package-lock.json 
+# #         run: npm version $new_version --no-git-tag-version
+        
+# #       # - name: Update the config.xml file with the new version.
+# #       #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
+
+# #       - name: Push branch to remote
+# #         run: git push origin release/$TAG_NAME
+
+
 
 # jobs:
-#   create-branch:
+#   release-branch:
 #     runs-on: ubuntu-latest
-
 #     steps:
-#       - name: Check out code
+#       - name: Checkout Code
 #         uses: actions/checkout@v2
 
-#       - name: Extract tag name
-#         id: extract-tag
-#         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+#       - name: Get Tag Information
+#         id: tag_info
+#         run: |
+#           tag_name="${GITHUB_REF#refs/tags/}"
+#           tag_author_name=$(git for-each-ref --format '%(taggername)' "refs/tags/$tag_name")
+#           tag_author_email=$(git for-each-ref --format '%(taggeremail)' "refs/tags/$tag_name")
+#           echo "::set-output name=tag_name::$tag_name"
+#           echo "::set-output name=tag_author_name::$tag_author_name"
+#           echo "::set-output name=tag_author_email::$tag_author_email"
 
-#       - name: Create branch
-#         run: git checkout -b release/$TAG_NAME $TAG_NAME
-
-#       - name: Update package.json and  package-lock.json 
-#         run: npm version $new_version --no-git-tag-version
-        
-#       # - name: Update the config.xml file with the new version.
-#       #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
-
-#       - name: Push branch to remote
-#         run: git push origin release/$TAG_NAME
-
+#       - name: Configure Git with Tag Author's Info
+#         run: |
+#           git config --global user.email "${{ steps.tag_info.outputs.tag_author_email }}"
+#           git config --global user.name "${{ steps.tag_info.outputs.tag_author_name }}"
 
 
-jobs:
-  release-branch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+#       - name: Create Release Branch
+#         run: |
+#           TAG_NAME="${{ steps.tag.outputs.tag }}"
+#           BRANCH_NAME="release/$TAG_NAME"
+#           git checkout -b "$BRANCH_NAME"
+#           git push -u origin "$BRANCH_NAME"
 
-      - name: Get Tag Information
-        id: tag_info
-        run: |
-          tag_name="${GITHUB_REF#refs/tags/}"
-          tag_author_name=$(git for-each-ref --format '%(taggername)' "refs/tags/$tag_name")
-          tag_author_email=$(git for-each-ref --format '%(taggeremail)' "refs/tags/$tag_name")
-          echo "::set-output name=tag_name::$tag_name"
-          echo "::set-output name=tag_author_name::$tag_author_name"
-          echo "::set-output name=tag_author_email::$tag_author_email"
+#       - name: Update package.json Version
+#         run: |
+#           TAG_NAME="${{ steps.tag.outputs.tag }}"
+#           sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package.json
+#           git add package.json
+#           git commit -m "Update package.json version to $TAG_NAME"
+#           git push
 
-      - name: Configure Git with Tag Author's Info
-        run: |
-          git config --global user.email "${{ steps.tag_info.outputs.tag_author_email }}"
-          git config --global user.name "${{ steps.tag_info.outputs.tag_author_name }}"
+#       - name: Update package-lock.json Version
+#         run: |
+#           TAG_NAME="${{ steps.tag.outputs.tag }}"
+#           sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package-lock.json
+#           git add package-lock.json
+#           git commit -m "Update package-lock.json version to $TAG_NAME"
+#           git push
 
-
-      - name: Create Release Branch
-        run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
-          BRANCH_NAME="release/$TAG_NAME"
-          git checkout -b "$BRANCH_NAME"
-          git push -u origin "$BRANCH_NAME"
-
-      - name: Update package.json Version
-        run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
-          sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package.json
-          git add package.json
-          git commit -m "Update package.json version to $TAG_NAME"
-          git push
-
-      - name: Update package-lock.json Version
-        run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
-          sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package-lock.json
-          git add package-lock.json
-          git commit -m "Update package-lock.json version to $TAG_NAME"
-          git push
-
-      - name: Update config.xml Version
-        run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
-          sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
-          git add config.xml
-          git commit -m "Update config.xml version to $TAG_NAME"
-          git push
+#       - name: Update config.xml Version
+#         run: |
+#           TAG_NAME="${{ steps.tag.outputs.tag }}"
+#           sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
+#           git add config.xml
+#           git commit -m "Update config.xml version to $TAG_NAME"
+#           git push
