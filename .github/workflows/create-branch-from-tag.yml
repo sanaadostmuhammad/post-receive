@@ -61,14 +61,12 @@ jobs:
 
       - name: Create Release Branch
         run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
           BRANCH_NAME="release/$TAG_NAME"
           git checkout -b "$BRANCH_NAME"
           git push -u origin "$BRANCH_NAME"
 
       - name: Update package.json Version
         run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
           sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package.json
           git add package.json
           git commit -m "Update package.json version to $TAG_NAME" --author="$AUTHOR_NAME <$AUTHOR_EMAIL>"
@@ -76,7 +74,6 @@ jobs:
 
       - name: Update package-lock.json Version
         run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
           sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package-lock.json
           git add package-lock.json
           git commit -m "Update package-lock.json version to $TAG_NAME" --author="$AUTHOR_NAME <$AUTHOR_EMAIL>"
@@ -84,7 +81,6 @@ jobs:
 
       - name: Update config.xml Version
         run: |
-          TAG_NAME="${{ steps.tag.outputs.tag }}"
           sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
           git add config.xml
           git commit -m "Update config.xml version to $TAG_NAME" --author="$AUTHOR_NAME <$AUTHOR_EMAIL>"
