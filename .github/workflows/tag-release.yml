@@ -1,0 +1,32 @@
+name: Create Release Branch and Update Versions
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create-release-branch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Extract Tag Name
+      id: tag
+      run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+
+    - name: Create Release Branch
+      run: |
+        TAG_NAME="${{ steps.tag.outputs.tag }}"
+        git checkout -b release/$TAG_NAME
+        git push origin release/$TAG_NAME
+
+    - name: Update Versions
+      run: |
+        TAG_NAME="${{ steps.tag.outputs.tag }}"
+        sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package.json
+        sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/" package-lock.json
+        sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
+        git add package.json package-lock.json config.xml
+        git commit -m "Update versions to $TAG_NAME"
+        git push origin release/$TAG_NAME
