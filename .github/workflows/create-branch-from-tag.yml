@@ -20,11 +20,11 @@ jobs:
       - name: Create branch
         run: git checkout -b release/$TAG_NAME $TAG_NAME
 
-      - name: Update package.json and  package-lock.json 
-        run: npm version $new_version --no-git-tag-version
+      # - name: Update package.json and  package-lock.json 
+      #   run: npm version $new_version --no-git-tag-version
         
-      - name: Update the config.xml file with the new version.
-        run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
+      # - name: Update the config.xml file with the new version.
+      #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
 
       - name: Push branch to remote
         run: git push origin release/$TAG_NAME
