@@ -37,11 +37,12 @@ jobs:
 
       - name: Update package.json and  package-lock.json 
         run: |
-         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package.json
-         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package-lock.json
-
+          sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package-lock.json
+          sed -i "s/version=\"[^\"]*\"/version=\"$TAG_NAME\"/" config.xml
+         
           
-          git add package.json package-lock.json
+          git add package.json package-lock.json config.xml
           git commit -m "Update version to $TAG_NAME"
         
       # - name: Update the config.xml file with the new version.
