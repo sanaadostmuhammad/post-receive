@@ -24,8 +24,8 @@ jobs:
           tag_author_name=$(git for-each-ref --format '%(taggername)' "refs/tags/$TAG_NAME")
           tag_author_email=$(git for-each-ref --format '%(taggeremail)' "refs/tags/$TAG_NAME")
 
-          echo "tag_author_name"
-          echo "tag_author_email"
+          echo "$tag_author_name"
+          echo "$tag_author_email"
         
           echo "AUTHOR_NAME=$tag_author_name" >> $GITHUB_ENV
           echo "AUTHOR_EMAIL=$tag_author_email" >> $GITHUB_ENV
