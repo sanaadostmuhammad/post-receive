@@ -27,11 +27,21 @@ jobs:
           echo "TAG_AUTHOR_NAME=$TAG_AUTHOR_NAME" >> $GITHUB_ENV
           echo "TAG_AUTHOR_EMAIL=$TAG_AUTHOR_EMAIL" >> $GITHUB_ENV
 
+      - name: Set Git Author Info
+        run: |
+          git config user.name $TAG_AUTHOR_NAME
+          git config user.email $TAG_AUTHOR_EMAIL
+
       - name: Create branch
         run: git checkout -b release/$TAG_NAME $TAG_NAME
 
       - name: Update package.json and  package-lock.json 
-        run: npm version $new_version --no-git-tag-version
+        run: |
+          npm version $new_version --no-git-tag-version
+          
+          git add package.json package-lock.json
+          git commit -m "Update version to $TAG_NAME"
+          git push
         
       # - name: Update the config.xml file with the new version.
       #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
