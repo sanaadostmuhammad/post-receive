@@ -21,14 +21,11 @@ jobs:
         id: tag_author
         run: |
           
-          tag_author_name=$(git for-each-ref --format '%(taggername)' "refs/tags/$TAG_NAME")
-          tag_author_email=$(git for-each-ref --format '%(taggeremail)' "refs/tags/$TAG_NAME")
-
-          echo "$tag_author_name"
-          echo "$tag_author_email"
+          TAG_AUTHOR_NAME=$(git log -1 --pretty=format:'%an' ${{ github.ref }})
+          TAG_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae' ${{ github.ref }})
         
-          echo "AUTHOR_NAME=$tag_author_name" >> $GITHUB_ENV
-          echo "AUTHOR_EMAIL=$tag_author_email" >> $GITHUB_ENV
+          echo "TAG_AUTHOR_NAME=$TAG_AUTHOR_NAME" >> $GITHUB_ENV
+          echo "TAG_AUTHOR_EMAIL=$TAG_AUTHOR_EMAIL" >> $GITHUB_ENV
 
       - name: Create branch
         run: git checkout -b release/$TAG_NAME $TAG_NAME
