@@ -37,7 +37,9 @@ jobs:
 
       - name: Update package.json and  package-lock.json 
         run: |
-          npm version $new_version --no-git-tag-version
+         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package.json
+         sed -i "s/\"version\": \".*\"/\"version\": \"$TAG_NAME\"/g" package-lock.json
+
           
           git add package.json package-lock.json
           git commit -m "Update version to $TAG_NAME"
