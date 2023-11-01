@@ -43,7 +43,6 @@ jobs:
           
           git add package.json package-lock.json
           git commit -m "Update version to $TAG_NAME"
-          git push
         
       # - name: Update the config.xml file with the new version.
       #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
