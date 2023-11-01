@@ -1,33 +1,43 @@
-# name: Create Branch from Tag
+name: Create Branch from Tag
 
-# on:
-#   push:
-#     tags:
-#       - '*'
+on:
+  push:
+    tags:
+      - '*'
 
-# # jobs:
-# #   create-branch:
-# #     runs-on: ubuntu-latest
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
 
-# #     steps:
-# #       - name: Check out code
-# #         uses: actions/checkout@v2
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
 
-# #       - name: Extract tag name
-# #         id: extract-tag
-# #         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      - name: Extract tag name
+        id: extract-tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-# #       - name: Create branch
-# #         run: git checkout -b release/$TAG_NAME $TAG_NAME
-
-# #       - name: Update package.json and  package-lock.json 
-# #         run: npm version $new_version --no-git-tag-version
+      - name: Get Tag Author
+        id: tag_author
+        run: |
+          
+          tag_author_name=$(git for-each-ref --format '%(taggername)' "refs/tags/$TAG_NAME")
+          tag_author_email=$(git for-each-ref --format '%(taggeremail)' "refs/tags/$TAG_NAME")
         
-# #       # - name: Update the config.xml file with the new version.
-# #       #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
+          echo "AUTHOR_NAME=$tag_author_name" >> $GITHUB_ENV
+          echo "AUTHOR_EMAIL=$tag_author_email" >> $GITHUB_ENV
 
-# #       - name: Push branch to remote
-# #         run: git push origin release/$TAG_NAME
+      - name: Create branch
+        run: git checkout -b release/$TAG_NAME $TAG_NAME
+
+      - name: Update package.json and  package-lock.json 
+        run: npm version $new_version --no-git-tag-version
+        
+      # - name: Update the config.xml file with the new version.
+      #   run: sed -i '' "s/\(widget.*version=\"\)\([0-9,.]*\)\"/\1$new_version\"/" config.xml
+
+      - name: Push branch to remote
+        run: git push origin release/$TAG_NAME
 
 
 
