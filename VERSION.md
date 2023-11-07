@@ -1,6 +1,6 @@
 # Version history (update config.xml with version as well!)
 
-## pattern-to-replace
+<!-- version placeholder -->
 
 
 ## 9.66.0 - Appflow

@@ -45,14 +45,7 @@ jobs:
       - name: Update package.json and  package-lock.json 
         run: |
 
-          # Define the multiline comment you want to replace with
-          multiline_comment="<!-- Your multiline comment here -->"
-
-          # Use sed to replace the pattern with the multiline comment
-          sed -i '/pattern-to-replace/ {
-            r /dev/stdin
-            d
-          }' VERSION.md <<< "$multiline_comment"
+          sed -i "/<!-- version placeholder -->/a /## $RELEASE_VERSION - $RELEASE_TYPE" release.md
 
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package.json
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package-lock.json
