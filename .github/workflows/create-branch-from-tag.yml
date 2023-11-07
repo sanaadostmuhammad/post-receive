@@ -44,12 +44,23 @@ jobs:
 
       - name: Update package.json and  package-lock.json 
         run: |
+          echo "New line to append" >> VERSION.md
+
+          # Define the multiline comment you want to replace with
+          multiline_comment="<!-- Your multiline comment here -->"
+
+          # Use sed to replace the pattern with the multiline comment
+          sed -i '/pattern-to-replace/ {
+            r /dev/stdin
+            d
+          }' release.md <<< "$multiline_comment"
+
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package.json
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package-lock.json
           sed -i "s/version=\"[^\"]*\"/version=\"$RELEASE_VERSION\"/" config.xml
          
           
-          git add package.json package-lock.json config.xml
+          git add VERSION.md package.json package-lock.json config.xml
           git commit -m "Update version to $RELEASE_VERSION"
 
       - name: Push branch to remote
