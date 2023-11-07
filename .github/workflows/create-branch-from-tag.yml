@@ -44,7 +44,6 @@ jobs:
 
       - name: Update package.json and  package-lock.json 
         run: |
-          echo "New line to append" >> VERSION.md
 
           # Define the multiline comment you want to replace with
           multiline_comment="<!-- Your multiline comment here -->"
