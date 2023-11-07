@@ -1,6 +1,7 @@
 # Version history (update config.xml with version as well!)
 
 <!-- version placeholder -->
+## 11.0.23 - binary
 
 
 ## 9.66.0 - Appflow
