@@ -40,7 +40,7 @@ jobs:
           git config user.email $TAG_AUTHOR_EMAIL
 
       - name: Create branch
-        run: git checkout -b release/$RELEASE_VERSION $RELEASE_VERSION
+        run: git checkout -b release/$RELEASE_VERSION $TAG_NAME
 
       - name: Update package.json and  package-lock.json 
         run: |
