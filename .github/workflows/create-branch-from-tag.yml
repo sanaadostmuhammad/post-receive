@@ -45,7 +45,7 @@ jobs:
       - name: Update package.json and  package-lock.json 
         run: |
 
-          sed -i "/<!-- version placeholder -->/a /## $RELEASE_VERSION - $RELEASE_TYPE" release.md
+          sed -i "/<!-- version placeholder -->/a /## $RELEASE_VERSION - $RELEASE_TYPE" VERSION.md
 
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package.json
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package-lock.json
