@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.bettercaring45581069" version="9.65.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.bettercaring45581069" version="11.0.42" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Mable</name>
     <description>Mobile app for Mable</description>
     <author email="info@mable.com.au" href="http://mable.com.au/">The Mable Team</author>
