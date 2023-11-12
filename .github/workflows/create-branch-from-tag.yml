@@ -7,7 +7,7 @@ on:
     # branches:
     #   - main
     #   - master
-      - 'release/**'  # Assuming release branches follow a pattern like 'release/{version}'
+    #   - 'release/**'  # Assuming release branches follow a pattern like 'release/{version}'
 
 jobs:
   create-branch:
