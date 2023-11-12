@@ -20,6 +20,10 @@ jobs:
           RELEASE_VERSION="${TAG_NAME%%-*}"
           RELEASE_TYPE="${TAG_NAME#*-}"
 
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
+
           if [[ "$TAG_NAME" =~ refs/tags/([0-9]+.[0-9]+.[0-9]+-(appflow|binary)) ]]; then
           echo "Tag format is correct (e.g., '10.0.9-binary')"
           exit 0
@@ -27,11 +31,6 @@ jobs:
             echo "Error: Tag format is incorrect. It should be like '10.0.9-binary' or '10.0.9-appflow'"
             exit 1
           fi
-
-         
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
-          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
-          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
       - name: Get Tag Author
         id: tag_author
