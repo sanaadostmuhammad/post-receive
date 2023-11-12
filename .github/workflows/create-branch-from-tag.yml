@@ -24,11 +24,11 @@ jobs:
           echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
           echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
-          if [[ "$TAG_NAME" == refs/tags/([0-9]+.[0-9]+.[0-9]+-(appflow|binary)) ]]; then
-          echo "Tag format is correct (e.g., '10.0.9-binary')"
+          if [[ "$TAG_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-appflow|-binary)$ ]]; then
+          echo "Tag has a valid semantic version with -appflow or -binary postfix."
           exit 0
           else
-            echo "Error: Tag format is incorrect. It should be like '10.0.9-binary' or '10.0.9-appflow'"
+            echo "Error: Tag does not have a valid semantic version with -appflow or -binary postfix."
             exit 1
           fi
 
