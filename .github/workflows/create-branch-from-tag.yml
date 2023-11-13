@@ -17,6 +17,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Extract tag name
         id: extract-tag
         run: |
@@ -60,7 +64,8 @@ jobs:
           sed -i "/<!-- version placeholder -->/a ## $RELEASE_VERSION - $RELEASE_TYPE" VERSION.md
 
           sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package.json
-          sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package-lock.json
+          # sed -i "s/\"version\": \".*\"/\"version\": \"$RELEASE_VERSION\"/g" package-lock.json
+          npm i 
           sed -i "s/version=\"[^\"]*\"/version=\"$RELEASE_VERSION\"/" config.xml
          
           
